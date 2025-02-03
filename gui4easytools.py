@@ -154,7 +154,9 @@ class EZToolsGUI:
         # Panneau de droite pour la console
         console_frame = ttk.LabelFrame(main_frame, text="Console", padding="5")
         console_frame.grid(row=0, column=1, sticky="nsew")
-        
+
+        console_frame.columnconfigure(0, weight=1)
+
         self.console = scrolledtext.ScrolledText(console_frame, wrap=tk.WORD, height=40)
         self.console.grid(row=0, column=0, sticky="nsew")
         
