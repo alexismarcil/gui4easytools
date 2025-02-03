@@ -157,7 +157,7 @@ class EZToolsGUI:
         
         self.console = scrolledtext.ScrolledText(console_frame, wrap=tk.WORD, height=40)
         self.console.grid(row=0, column=0, sticky="nsew")
-        
+
         # Configuration du redimensionnement
         self.root.grid_rowconfigure(0, weight=1)
         self.root.grid_columnconfigure(0, weight=1)
@@ -418,7 +418,7 @@ class EZToolsGUI:
         
         # Effacer la console avant de mettre à jour
         self.console.delete('1.0', tk.END)
-        
+
         # Mettre à jour la liste des utilisateurs
         self.update_users_list()
         
@@ -442,15 +442,16 @@ class EZToolsGUI:
                 $diskType = $_.MediaType
                 
                 Write-Host ("Disque physique #" + $diskNumber + " - Type: " + $diskType + " - Taille: " + $diskSize + " Go")
-                
+
                 Get-Partition -DiskNumber $diskNumber | ForEach-Object {
                     $partition = $_
                     $volume = Get-Volume -Partition $partition
-                    
+                    $driveLetter = if ($volume.DriveLetter) { $volume.DriveLetter + ":" } else { "Non assigné" }
                     Write-Host ("  Partition " + $partition.PartitionNumber + 
                                 " - Type: " + $partition.Type + 
                                 " - Taille: " + [math]::Round($partition.Size / 1GB, 2) + " Go" +
-                                " - File system: " + $volume.FileSystem)
+                                " - File system: " + $volume.FileSystem +
+                                " - Lecteur: " + $driveLetter)
                 }
                 Write-Host ""
             }
